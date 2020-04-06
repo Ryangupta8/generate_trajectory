@@ -10,7 +10,8 @@ from py_coverage.grid_map import GridMap
 from py_coverage.grid_based_sweep_coverage_path_planner import planning
 from py_coverage.tools import define_polygon, polygon_contains_point
 from std_msgs.msg import Float32MultiArray
-from minimization.msg import Waypoint, WaypointList
+from minimization.msg import WaypointList
+from geometry_msgs.msg import Point
 
 
 MAX_ACCELERATION = 1.0
@@ -103,16 +104,13 @@ def py_coverage_min_cb():
 		msg.maxAcceleration = MAX_ACCELERATION
 		msg.maxVelocity = MAX_VELOCITY
 
-		wp = Waypoint()
-		wp.value_x = goal_x[0]
-		wp.value_y = goal_y[0]
-		msg.wp_list.push_back(wp)
-		# for i in range(len(goal_x)):
-		# 	wp = Waypoint()
-		# 	wp.value_x = goal_x[i]
-		# 	wp.value_y = goal_y[i]
-		# 	msg.wp_list[i] = wp
-		# 	print("loopppp")
+
+		
+		for i in range(len(goal_x)):
+			wp = Point()
+			wp.x = goal_x[i]
+			wp.y = goal_y[i]
+			msg.wp_list.append(wp)
 
 
 		# Publish
